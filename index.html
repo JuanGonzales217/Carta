@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Carta Interactiva Navideña Premium</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url('https://i.imgur.com/0nJc8zC.jpeg') center/cover no-repeat fixed;
+  }
+
+  /* NIEVE */
+  #snowCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* INTRO DEL REGALO */
+  #giftIntro {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+  }
+
+  #giftIntro img {
+    width: 5000px;
+    cursor: pointer;
+    animation: pulse 1.8s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  /* CONTENEDOR PRINCIPAL */
+  .container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 10;
+    position: relative;
+  }
+
+  .box {
+    width: 360px;
+    height: 260px;
+    background: linear-gradient(135deg, #b80000, #ff4d4d);
+    border-radius: 14px;
+    box-shadow: 0 0 35px rgba(0,0,0,0.45);
+    position: relative;
+    cursor: pointer;
+    transition: transform .5s;
+  }
+
+  .box:hover { transform: scale(1.05); }
+
+  .envelope {
+    width: 300px;
+    height: 200px;
+    background: #fff6dd;
+    border-radius: 10px;
+    position: absolute;
+    top: 30px; left: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #8b0000;
+    font-weight: bold;
+    box-shadow: 0 0 18px rgba(0,0,0,0.25);
+    transition: transform 1s;
+  }
+
+  /* MODAL */
+  .open-letter {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 15;
+  }
+
+  .letter {
+    width: 90%; max-width: 650px;
+    background: #ffffffcc;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.35);
+    animation: fadeIn .8s ease;
+    position: relative;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .page { display: none; animation: fadeIn .5s ease; }
+  .page.active { display: block; }
+
+  .btn-nav {
+    margin-top: 15px;
+    padding: 10px 22px;
+    border: none;
+    background: #b80000;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #900;
+  }
+
+  .sparkle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #fff, rgba(255,255,255,0));
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 30;
+  }
+</style>
+</head>
+<body>
+
+<!-- EFECTO DE NIEVE -->
+<canvas id="snowCanvas"></canvas>
+
+<!-- INTRO DE REGALO -->
+<div id="giftIntro">
+  <img src="img/card-1835447_1280.jpg" onclick="openGift()" />
+</div>
+
+<!-- SOBRE -->
+<div class="container" id="mainBox">
+  <div class="box" onclick="openLetter()">
+    <div class="envelope" id="envelope">Abrir Carta ✨</div>
+  </div>
+</div>
+
+<!-- MODAL DE CARTA -->
+<div class="open-letter" id="letterModal">
+  <div class="letter">
+    <div class="close-btn" onclick="closeLetter()">✖</div>
+
+    <section class="page active" id="page1">
+      <h2>✨Mi persona favorita✨</h2>
+      <p>
+Desde que llegaste a mi vida, todo ha tenido sentido, incluso en los peores momentos. Quiero que sepas que siempre serás mi persona favorita. Eres una de las personas más increíbles que he conocido en mi vida; eres alguien que, cuando te veo, me hace feliz. Eres la persona con la que puedo ser yo mismo, la más especial, mi mejor persona, y siempre lo serás. Gracias por enseñarme la importancia de la vida y gracias por siempre estar ahí para mí. Gracias por todas las veces que me diste de comer. ¡Qué comida más nítida jejeje…!</p>
+    </section>
+
+    <section class="page" id="page2">
+      <h2>❤️ Lo que siento por ti ❤️</h2>
+      <p>Lo que admiro de ti
+Eres una persona increíble, y hay muchas cosas que admiro de ti: admiro tu forma de escuchar, admiro tu manera de ser, admiro cómo me cuidas sin decir nada. Admiro tantas cosas de ti que, si las dijera todas, no me alcanzarían las palabras. Y recuerda que siempre voy a estar para ti cuando me necesites, no importa lo que pase. Tienes un espacio en mi vida, pase lo que pase, y quiero que nuestra amistad dure para siempre, porque nunca podría olvidarte: tu forma de querer no se encuentra en cualquier lado. Tengo mucho más que decirte, pero lo dejo hasta aquí porque se me acaba la carta 😁. Gracias por existir en mi vida, y recuerda que te quiero mucho ❤.</p>
+    </section>
+
+    <section class="page" id="page3">
+      <h2>🎥 Nuestro recuerdo</h2>
+      <video width="100%" controls>
+      <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@usuario/video/VIDEO_ID" data-video-id="VIDEO_ID" style="max-width: 350px; margin:auto;">
+    <section></section>
+</blockquote>
+<script async src="https://www.tiktok.com/embed.js"></script>
+
+      </video>
+    </section>
+
+    <section class="page" id="page4">
+      <h2>🎄 Navidad contigo</h2>
+      <p>Que esta Navidad te traiga felicidad infinita.</p>
+    </section>
+
+    <section class="page" id="page5">
+      <h2>💌 Final</h2>
+      <p>Siempre voy a estar para ti ❤️</p>
+    </section>
+
+    <button class="btn-nav" onclick="prevPage()">Anterior</button>
+    <button class="btn-nav" onclick="nextPage()">Siguiente</button>
+
+  </div>
+</div>
+
+<script>
+let currentPage = 1;
+const totalPages = 5;
+
+function openGift(){
+  document.getElementById('giftIntro').style.display = 'none';
+  document.getElementById('mainBox').style.display = 'flex';
+}
+
+function openLetter(){
+  document.getElementById('letterModal').style.display = 'flex';
+  document.getElementById('envelope').style.transform = 'translateY(-260px) rotate(-10deg)';
+}
+
+function closeLetter(){
+  document.getElementById('letterModal').style.display = 'none';
+  document.getElementById('envelope').style.transform = 'translateY(0)';
+}
+
+function showPage(num){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+num).classList.add('active');
+  createSparkles();
+}
+
+function nextPage(){ if(currentPage < totalPages){ currentPage++; showPage(currentPage);} }
+function prevPage(){ if(currentPage > 1){ currentPage--; showPage(currentPage);} }
+
+/* PARTICULAS */
+function createSparkles(){
+  for(let i=0;i<15;i++){
+    const s=document.createElement('div');
+    s.className='sparkle'; document.body.appendChild(s);
+    s.style.left=(50+(Math.random()-0.5)*40)+'%';
+    s.style.top=(50+(Math.random()-0.5)*20)+'%';
+    s.animate([
+      {transform:'scale(0)',opacity:0},
+      {transform:'scale(1.4)',opacity:1},
+      {transform:'scale(0.3)',opacity:0}
+    ],{duration:1200});
+    setTimeout(()=>s.remove(),1200);
+  }
+}
+
+/* NIEVE */
+const snowCanvas = document.getElementById('snowCanvas');
+const ctx = snowCanvas.getContext('2d');
+let snowflakes = [];
+
+function resize(){ snowCanvas.width = innerWidth; snowCanvas.height = innerHeight; }
+resize(); window.onresize = resize;
+
+function createSnow(){
+  snowflakes.push({ x: Math.random()*innerWidth, y: -10, size: Math.random()*4+1, speed: Math.random()*1+0.5 });
+}
+
+function updateSnow(){
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  snowflakes.forEach((f,i)=>{
+    f.y += f.speed;
+    ctx.beginPath(); ctx.arc(f.x,f.y,f.size,0,Math.PI*2); ctx.fillStyle='white'; ctx.fill();
+    if(f.y > innerHeight) snowflakes.splice(i,1);
+  });
+}
+
+setInterval(createSnow, 80);
+function loop(){ updateSnow(); requestAnimationFrame(loop);} loop();
+</script>
+
+</body>
+</html>
