@@ -5,11 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Carta Interactiva Navideña Premium</title>
 <style>
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: url('https://i.imgur.com/0nJc8zC.jpeg') center/cover no-repeat fixed;
-  }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+
+  /* FONDO NAVIDEÑO PROFESIONAL */
+  background-image: url('https://i.imgur.com/nm4vU9X.jpeg'); 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
+  /* EFECTO: VIÑETA ELEGANTE */
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0) 40%, rgba(0,0,0,0.55));
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* EFECTO DE BRILLO SUAVE EN TODO EL FONDO */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("https://i.imgur.com/VG0Xq0t.png");
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 2;
+}
+
 
   /* NIEVE */
   #snowCanvas {
@@ -20,22 +51,34 @@
     z-index: 5;
   }
 
-  /* INTRO DEL REGALO */
-  #giftIntro {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
+#giftIntro {
+    width: 100%;
+    height: 100vh; /* ocupa toda la pantalla */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-  }
+    justify-content: center; /* centrar horizontal */
+    align-items: center; /* centrar vertical */
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent; /* deja ver el fondo */
+    z-index: 9999;
+}
 
-  #giftIntro img {
-    width: 5000px;
+#giftImage {
+    width: 280px; /* tamaño en pantallas normales */
+    max-width: 80%; /* que no se pase del móvil */
+    height: auto;
     cursor: pointer;
-    animation: pulse 1.8s infinite;
-  }
+    animation: pop 1.2s ease-in-out infinite;
+}
+
+/* animación suave */
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+    100% { transform: scale(1); }
+}
+
 
   @keyframes pulse {
     0% { transform: scale(1); }
@@ -122,6 +165,24 @@
     cursor: pointer;
     font-size: 16px;
   }
+.tiktok-link {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: #000; 
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  border-radius: 10px;
+  box-shadow: 0 0 18px rgba(255,255,255,0.4);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.tiktok-link:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 25px rgba(255,0,80,0.7);
+}
 
   .close-btn {
     position: absolute;
@@ -131,6 +192,19 @@
     cursor: pointer;
     color: #900;
   }
+.title {
+  text-align: center;
+  font-size: 26px;
+  color: #b30000;
+  text-shadow: 0 0 8px rgba(255,255,255,.7);
+  animation: glow 2s infinite ease-in-out;
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 8px rgba(255,255,255,.7); }
+  50% { text-shadow: 0 0 18px rgba(255,255,255,1); }
+  100% { text-shadow: 0 0 8px rgba(255,255,255,.7); }
+}
 
   .sparkle {
     position: fixed;
@@ -141,17 +215,57 @@
     pointer-events: none;
     z-index: 30;
   }
+   
+.osito-container {
+  text-align: center;
+  margin-top: 20px;
+}
+.page {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.page.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.osito {
+  width: 160px;
+  max-width: 70%;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Animación de flotación */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+body::before {
+  background:
+    linear-gradient(90deg, rgba(255, 0, 0, .35), transparent, rgba(255, 0, 0, .35)),
+    linear-gradient(0deg, rgba(255, 0, 0, .35), transparent, rgba(255, 0, 0, .35));
+}
+
+
 </style>
 </head>
 <body>
 
 <!-- EFECTO DE NIEVE -->
 <canvas id="snowCanvas"></canvas>
-
-<!-- INTRO DE REGALO -->
+<!-- INTRO DEL REGALO -->
 <div id="giftIntro">
-  <img src="img/card-1835447_1280.jpg" onclick="openGift()" />
+  <img 
+    src="img/card-1835447_1280.jpg" 
+    alt="Regalo" 
+    onclick="openGift()"
+  >
 </div>
+
+ 
 
 <!-- SOBRE -->
 <div class="container" id="mainBox">
@@ -166,52 +280,59 @@
     <div class="close-btn" onclick="closeLetter()">✖</div>
 
     <section class="page active" id="page1">
-      <h2>✨Mi persona favorita✨</h2>
+     <h2 class="title">✨ Mi persona favorita ✨</h2>
+
       <p>
 Desde que llegaste a mi vida, todo ha tenido sentido, incluso en los peores momentos. Quiero que sepas que siempre serás mi persona favorita. Eres una de las personas más increíbles que he conocido en mi vida; eres alguien que, cuando te veo, me hace feliz. Eres la persona con la que puedo ser yo mismo, la más especial, mi mejor persona, y siempre lo serás. Gracias por enseñarme la importancia de la vida y gracias por siempre estar ahí para mí. Gracias por todas las veces que me diste de comer. ¡Qué comida más nítida jejeje…!</p>
     </section>
 
     <section class="page" id="page2">
-      <h2>❤️ Por eres Mi persona fovorita... ❤️</h2>
+      <h2>❤️ Por que eres Mi persona fovorita... ❤️</h2>
       <p>Lo que admiro de ti
 Eres una persona increíble, y hay muchas cosas que admiro de ti: admiro tu forma de escuchar, admiro tu manera de ser, admiro cómo me cuidas sin decir nada. Admiro tantas cosas de ti que, si las dijera todas, no me alcanzarían las palabras. Y recuerda que siempre voy a estar para ti cuando me necesites, no importa lo que pase. Tienes un espacio en mi vida, pase lo que pase, y quiero que nuestra amistad dure para siempre, porque nunca podría olvidarte: tu forma de querer no se encuentra en cualquier lado. Tengo mucho más que decirte, pero lo dejo hasta aquí porque se me acaba la carta 😁. Gracias por existir en mi vida, y recuerda que te quiero mucho ❤.</p>
     </section>
 
-    <section class="page" id="page3">
-  <h2>🎥 Nuestro recuerdo</h2>
+  
+<section class="page" id="page3">
+  <h2>Mira este video</h2>
+  <p>
+   Quise dejarte este video porque me recuerda a muchos momenticos que hemos vivido.
+A veces no nos damos cuenta de cuánto significan ciertas cosas pero para mi esos recuerdos son las mejores cosas que puedo recordar siempre, y contigo tengo recuerdos que siempre se quedan en mi mente.
 
-  <!-- EMBED DE TIKTOK AQUÍ -->
-  <blockquote class="tiktok-embed" 
-      cite="https://www.tiktok.com/@anuellnation/video/7568512044375346488" 
-      data-video-id="7568512044375346488"
-      style="max-width: 605px; min-width: 325px; margin: auto;">
-    <section>
-      <a target="_blank" title="@anuellnation" 
-         href="https://www.tiktok.com/@anuellnation?refer=embed">@anuellnation</a>
-      Hubo cariño y amor en las últimas conversaciones. 🫠
-      <a title="anuel" target="_blank" href="https://www.tiktok.com/tag/anuel?refer=embed">#Anuel</a>
-      <a title="anuellnation" target="_blank" href="https://www.tiktok.com/tag/anuellnation?refer=embed">#Anuellnation</a>
-      <a title="rhlm" target="_blank" href="https://www.tiktok.com/tag/rhlm?refer=embed">#RHLM</a>
-      <a target="_blank" 
-         title="♬ sonido original  - Anuel Fans" 
-         href="https://www.tiktok.com/music/sonido-original-Anuel-Fans-7568512053309180683?refer=embed">
-         ♬ sonido original - Anuel Fans
-      </a>
-    </section>
-  </blockquote>
+Me acuerdo de nuestras conversaciones, de las bobadas que nos reímos, de cómo siempre encuentras la manera de hacerme sentir mejor sin darte cuenta.
+Me gusta cómo eres conmigo, lo que compartimos, lo que hemos vivido… y hise este video de los recuerdos de nosotros ojala si te guste. 
 
-  <script async src="https://www.tiktok.com/embed.js"></script>
+Ojalá cuando lo veas también te saque una sonrisa, así como tú me las sacas a mí.
+  </p>
+
+  <a href="https://www.tiktok.com/@teamrhlm92/video/7576712577980304658?is_from_webapp=1&sender_device=pc&web_id=7535905482931226118" 
+     target="_blank" 
+     class="tiktok-link">
+     🔗 Ver video en TikTok
+  </a>
 </section>
 
 
+
     <section class="page" id="page4">
-      <h2>🎄 Navidad contigo</h2>
-      <p>Que esta Navidad te traiga felicidad infinita.</p>
+      <h2> En esta Navidad también quiero recordarte algo importante:</h2>
+      <p>
+Eres capaz de todo lo que te propongas.
+Solo recuerda mantener siempre una mente positiva y nunca perder la fe en ti misma.
+Tienes una fuerza increíble y, aunque a veces no lo notes, eres capaz de lograr cualquier meta, ya sea sola o acompañada.
+Vales muchísimo, más de lo que tú misma alcanzas a ver, y por eso sé que todo lo que sueñas… lo vas a lograr.
+
+Confío en ti, en tus sueños y en todo lo que vas a conseguir.
+Ojalá esta Navidad la pases muy bien, logres tus metas y se cumplan tus sueños, porque siempre has podido; solo necesitas creer un poquito más en ti.</p>
     </section>
 
     <section class="page" id="page5">
       <h2>💌 Final</h2>
       <p>Siempre voy a estar para ti ❤️</p>
+      <div class="osito-container">
+  <img src="img/pngtree-a-teddy-bear-holding-heart-png-image_19604338.png" alt="Osito" class="osito">
+</div>
+
     </section>
 
     <button class="btn-nav" onclick="prevPage()">Anterior</button>
