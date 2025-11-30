@@ -403,13 +403,164 @@ body::after {
   50% { transform: rotate(-4deg); }
   100% { transform: rotate(0deg); }
 }
+/* Botón secreto */
+.boton-secreto {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0.3;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  transition: 0.3s;
+}
+
+.boton-secreto:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contenido {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  max-width: 350px;
+  text-align: center;
+  animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+
+#pistaOculta:hover {
+  opacity:1;
+}
+
 
 </style>
 </head>
 <body>
+<!-- PISTA FLOTANTE -->
+<div id="pistaFlotante" 
+     style="display:none; 
+            position:fixed;
+            bottom:20px;
+            left:50%;
+            transform:translateX(-50%);
+            background:rgba(255,255,255,0.9);
+            padding:15px 20px;
+            border-radius:15px;
+            box-shadow:0 0 15px rgba(0,0,0,0.2);
+            font-size:18px;
+            animation: flotando 3s ease-in-out infinite;
+            z-index:999;">
+  ✨ “Tres letras…
+Las primeras que forman quién eres tú.”
+</div>
+
+<style>
+@keyframes flotando {
+  0% { transform:translate(-50%, 0px); }
+  50% { transform:translate(-50%, -12px); }
+  100% { transform:translate(-50%, 0px); }
+}
+</style>
+
+  <!-- MODAL PREGUNTA SECRETA -->
+<div class="open-letter" id="secretQuestion" style="display:none;">
+  <div class="letter">
+    <div class="close-btn" onclick="closeSecretQuestion()">✖</div>
+    <h2 class="title">🔐 Pregunta secreta</h2>
+    <p><p>“Tres letras…
+Las primeras que forman quién eres tú.”</p>
+ 🌸</p>
+
+    <input 
+      type="text" 
+      id="secretAnswer"
+      placeholder="Escríbela aquí..."
+      style="padding:10px;width:90%;border-radius:10px;border:none;font-size:18px;"
+    >
+
+    <button 
+      onclick="checkSecret()"
+      style="margin-top:15px;padding:10px 20px;border:none;border-radius:10px;background:#b80000;color:white;cursor:pointer;font-size:16px;"
+    >
+      Comprobar
+    </button>
+
+    <p id="secretError" style="color:red;font-weight:bold;display:none;margin-top:10px;">
+      Esa no es la palabra correcta 😳
+    </p>
+  </div>
+</div>
+<!-- MODAL MENSAJE FINAL -->
+<div class="open-letter" id="secretMeaning" style="display:none;">
+  <div class="letter">
+    <div class="close-btn" onclick="closeMeaning()">✖</div>
+
+    <h2 class="title">🌸 Hana Keranai 🌸</h2>
+
+    <p>
+      “Hana Keranai” significa <strong>una flor que nunca se marchita</strong>.  
+      Es una forma de decir que algo —o alguien— es tan especial  
+      que permanece hermoso sin importar el tiempo.  
+      Y tú… eres eso para mí. 💖
+    </p>
+  </div>
+</div>
+
+<!-- BOTÓN SECRETO (puedes ocultarlo con CSS) -->
+<button id="botonSecreto" class="boton-secreto">✨</button>
+
+<!-- MODAL PREGUNTA -->
+<div id="modalPregunta" class="modal">
+  <div class="modal-contenido">
+    <h2>💖 Pregunta secreta</h2>
+    <p>¿Cuál es la palabra especial?</p>
+    <input type="text" id="respuestaInput" placeholder="Escribe aquí..." />
+    <button id="verificarBtn">Verificar</button>
+    <button class="cerrar">Cerrar</button>
+  </div>
+</div>
+
+<!-- MODAL RESPUESTA CORRECTA -->
+<div id="modalCorrecto" class="modal">
+  <div class="modal-contenido">
+    <h2>🌸 Hana Keranai</h2>
+    <p><strong>Significado:</strong>  
+    “Una flor que nunca se marchita. Algo que permanece hermoso para siempre.”</p>
+
+    <p style="margin-top:10px;">
+    ✨ Así es lo que siento por ti: algo que no desaparece,  
+    algo que sigue siendo hermoso sin importar el tiempo. ✨
+    </p>
+
+    <button class="cerrar">Cerrar</button>
+  </div>
+</div>
 
   <div class="glow-orbs"></div>
 <div class="glow-orbs glow-orb2"></div>
+
 
 
 <!-- EFECTO DE NIEVE -->
@@ -468,13 +619,19 @@ Ojalá cuando lo veas también te saque una sonrisa, así como tú me las sacas 
   <a href="https://www.tiktok.com/@tomas.arebalo.pin/video/7578524942103301394?is_from_webapp=1&sender_device=pc&web_id=7535905482931226118" 
      target="_blank" 
      class="tiktok-link">
-     🔗 Ver video en TikTok
+     🔗 Ver video 
   </a>
 </section>
 
 
 
     <section class="page" id="page4">
+      <p id="pistaOculta" 
+   style="opacity:0; transition:0.5s; cursor:pointer; font-size:14px;">
+   ✨ A veces, la respuesta está en lo que tú representas…
+</p>
+
+
       <h2 class="title"> En esta Navidad también quiero recordarte algo importante:</h2>
       <p>
 Eres capaz de todo lo que te propongas.
@@ -483,7 +640,8 @@ Tienes una fuerza increíble y, aunque a veces no lo notes, eres capaz de lograr
 Vales muchísimo, más de lo que tú misma alcanzas a ver, y por eso sé que todo lo que sueñas… lo vas a lograr.
 
 Confío en ti, en tus sueños y en todo lo que vas a conseguir.
-Ojalá esta Navidad la pases muy bien, logres tus metas y se cumplan tus sueños, porque siempre has podido; solo necesitas creer un poquito más en ti.</p>
+Ojalá esta Navidad la pases muy bien, logres tus metas y se cumplan tus sueños, porque siempre has podido; solo necesitas <span id="secretoTrigger" style="cursor:pointer;">creer</span>
+un poquito más en ti.</p>
     </section>
 
     <section class="page" id="page5">
@@ -491,6 +649,8 @@ Ojalá esta Navidad la pases muy bien, logres tus metas y se cumplan tus sueños
       <p>Siempre voy a estar para ti ❤️</p>
       <div class="osito-container">
   <img src="img/pngtree-a-teddy-bear-holding-heart-png-image_19604338.png" alt="Osito" class="osito">
+
+  
   
 </div>
 <h1>Hana Keranai</h1>
@@ -509,6 +669,8 @@ const totalPages = 5;
 function openGift(){
   document.getElementById('giftIntro').style.display = 'none';
   document.getElementById('mainBox').style.display = 'flex';
+  document.getElementById('bgMusic').play();
+
 }
 
 function openLetter(){
@@ -576,6 +738,139 @@ function updateSnow(){
 
 setInterval(createSnow, 80);
 function loop(){ updateSnow(); requestAnimationFrame(loop);} loop();
+
+
+const botonSecreto = document.getElementById("botonSecreto");
+const modalPregunta = document.getElementById("modalPregunta");
+const modalCorrecto = document.getElementById("modalCorrecto");
+const verificarBtn = document.getElementById("verificarBtn");
+const respuestaInput = document.getElementById("respuestaInput");
+const botonesCerrar = document.querySelectorAll(".cerrar");
+
+// Mostrar pregunta
+botonSecreto.addEventListener("click", () => {
+  modalPregunta.style.display = "flex";
+});
+
+// Verificar respuesta
+verificarBtn.addEventListener("click", () => {
+  const respuesta = respuestaInput.value.trim().toLowerCase();
+
+  if (respuesta === "JGA") {
+    modalPregunta.style.display = "none";
+    modalCorrecto.style.display = "flex";
+  } else {
+    alert("Respuesta incorrecta 💔");
+  }
+});
+
+// Cerrar modales
+botonesCerrar.forEach(boton => {
+  boton.addEventListener("click", () => {
+    modalPregunta.style.display = "none";
+    modalCorrecto.style.display = "none";
+  });
+});
+
+// Abrir la pregunta secreta al hacer clic en "creer"
+document.getElementById("secretoTrigger").addEventListener("click", ()=>{
+  document.getElementById("secretQuestion").style.display = "flex";
+});
+
+// Cerrar pregunta secreta
+function closeSecretQuestion(){
+  document.getElementById("secretQuestion").style.display = "none";
+}
+
+// Validar la respuesta
+function checkSecret(){
+  const value = document.getElementById("secretAnswer").value.trim().toLowerCase();
+  const error = document.getElementById("secretError");
+
+  if(value === "hana keranai"){
+    error.style.display = "none";
+    document.getElementById("secretQuestion").style.display = "none";
+    document.getElementById("secretMeaning").style.display = "flex";
+  } else {
+    error.style.display = "block";
+  }
+}
+
+// Cerrar significado
+function closeMeaning(){
+  document.getElementById("secretMeaning").style.display = "none";
+}
+// Abrir la pregunta secreta al hacer clic en "creer"
+document.getElementById("secretoTrigger").addEventListener("click", ()=>{
+  document.getElementById("secretQuestion").style.display = "flex";
+});
+
+// Cerrar pregunta secreta
+function closeSecretQuestion(){
+  document.getElementById("secretQuestion").style.display = "none";
+}
+
+// Validar la respuesta (JGA)
+function checkSecret(){
+  const value = document.getElementById("secretAnswer").value.trim().toLowerCase();
+  const error = document.getElementById("secretError");
+
+  if(value === "jga"){ // <--- aquí está el cambio
+    error.style.display = "none";
+    document.getElementById("secretQuestion").style.display = "none";
+    document.getElementById("secretMeaning").style.display = "flex";
+  } else {
+    error.style.display = "block";
+  }
+}
+
+// Cerrar significado
+function closeMeaning(){
+  document.getElementById("secretMeaning").style.display = "none";
+}
+let contadorClicks = 0;
+
+// Primer clic → abre pregunta
+// Segundo clic → muestra pista flotante
+document.getElementById("secretoTrigger").addEventListener("click", ()=>{
+
+  contadorClicks++;
+
+  if(contadorClicks === 1){
+    // Primer clic → abrir pregunta secreta
+    document.getElementById("secretQuestion").style.display = "flex";
+  } 
+  else if(contadorClicks === 2){
+    // Segundo clic → mostrar pista flotante tipo C
+    const pista = document.getElementById("pistaFlotante");
+    pista.style.display = "block";
+
+    // Desaparece sola después de 8 segundos
+    setTimeout(()=>{
+      pista.style.display = "none";
+    }, 8000);
+  }
+});
+function checkSecret(){
+  const value = document.getElementById("secretAnswer").value.trim().toLowerCase();
+  const error = document.getElementById("secretError");
+
+  if(value === "jga"){
+    error.style.display = "none";
+    document.getElementById("secretQuestion").style.display = "none";
+    document.getElementById("secretMeaning").style.display = "flex";
+  } else {
+    error.style.display = "block";
+  }
+}
+// Mostrar / ocultar pista en móviles
+document.getElementById("pistaOculta").addEventListener("click", ()=>{
+
+  const pista = document.getElementById("pistaOculta");
+  pista.style.opacity = (pista.style.opacity === "1") ? "0" : "1";
+
+});
+
 </script>
 
 </body>
