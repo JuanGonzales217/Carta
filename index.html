@@ -454,10 +454,71 @@ body::after {
   opacity:1;
 }
 
+.corazon-img {
+  width: 120px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.corazon-img:hover {
+  transform: scale(1.1);
+}
+
+#mensaje-secreto {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #d11b5d;
+  font-weight: bold;
+  transition: opacity 0.5s;
+}
+
+.oculto {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.visible {
+  opacity: 1;
+  height: auto;
+}
+.corazon-texto img {
+  width: 14px;
+  opacity: 0.2; 
+  vertical-align: middle;
+  cursor: pointer;
+}
+.corazon-oculto {
+  position: absolute;
+  bottom: 30px;
+  right: 25px;
+}
+
+.corazon-oculto img {
+  width: 18px;
+  opacity: 0.12;  /* casi invisible */
+  cursor: pointer;
+  transition: opacity .4s, transform .3s;
+}
+
+.corazon-oculto img:active,
+.corazon-oculto img:hover {
+  opacity: 0.9;
+  transform: scale(1.2);
+}
 
 </style>
 </head>
 <body>
+
+  <div class="corazon-oculto">
+  <img src="img/corazon.png" id="corazon" alt="❤">
+</div>
+
+<p id="mensaje-secreto" class="oculto">
+  🌟 Pista: busca la palabra <b>“creer”</b>.
+</p>
+
 <!-- PISTA FLOTANTE -->
 <div id="pistaFlotante" 
      style="display:none; 
@@ -628,6 +689,7 @@ Ojalá cuando lo veas también te saque una sonrisa, así como tú me las sacas 
     <section class="page" id="page4">
       <p id="pistaOculta" 
    style="opacity:0; transition:0.5s; cursor:pointer; font-size:14px;">
+    
    ✨ A veces, la respuesta está en lo que tú representas…
 </p>
 
@@ -642,6 +704,12 @@ Vales muchísimo, más de lo que tú misma alcanzas a ver, y por eso sé que tod
 Confío en ti, en tus sueños y en todo lo que vas a conseguir.
 Ojalá esta Navidad la pases muy bien, logres tus metas y se cumplan tus sueños, porque siempre has podido; solo necesitas <span id="secretoTrigger" style="cursor:pointer;">creer</span>
 un poquito más en ti.</p>
+
+  
+<p id="mensaje-secreto" class="oculto">
+  🌟 Pista: busca la palabra <b>“creer”</b>.
+</p>
+
     </section>
 
     <section class="page" id="page5">
@@ -863,13 +931,14 @@ function checkSecret(){
     error.style.display = "block";
   }
 }
-// Mostrar / ocultar pista en móviles
-document.getElementById("pistaOculta").addEventListener("click", ()=>{
+const corazon = document.getElementById("corazon");
+const mensaje = document.getElementById("mensaje-secreto");
 
-  const pista = document.getElementById("pistaOculta");
-  pista.style.opacity = (pista.style.opacity === "1") ? "0" : "1";
-
+corazon.addEventListener("click", () => {
+  mensaje.classList.toggle("visible");
+  mensaje.classList.toggle("oculto");
 });
+
 
 </script>
 
