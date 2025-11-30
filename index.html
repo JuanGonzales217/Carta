@@ -244,6 +244,11 @@ body::after {
   max-width: 70%;
   animation: float 3s ease-in-out infinite;
 }
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
 
 /* Animación de flotación */
 @keyframes float {
@@ -256,11 +261,156 @@ body::before {
     linear-gradient(90deg, rgba(255, 0, 0, .35), transparent, rgba(255, 0, 0, .35)),
     linear-gradient(0deg, rgba(255, 0, 0, .35), transparent, rgba(255, 0, 0, .35));
 }
+.envelope {
+  transform-origin: top;
+  transition: transform 1.1s ease;
+}
+.envelope.open {
+  transform: rotateX(80deg) translateY(-160px);
+}
 
+/* BRILLOS SUAVES GIRANDO EN EL FONDO */
+.glow-orbs {
+  position: fixed;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(255,200,200,0.35), transparent 70%);
+  filter: blur(45px);
+  border-radius: 50%;
+  animation: orbMove 12s infinite linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-orb2 {
+  animation-duration: 18s;
+  background: radial-gradient(circle, rgba(255,120,120,0.25), transparent 70%);
+}
+
+@keyframes orbMove {
+  0% { transform: translate(-20%, -10%) rotate(0deg); }
+  50% { transform: translate(40%, 30%) rotate(180deg); }
+  100% { transform: translate(-20%, -10%) rotate(360deg); }
+}
+/* BORDES ILUMINADOS */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  border: 12px solid rgba(255, 0, 0, 0.15);
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.35) inset;
+  pointer-events: none;
+  z-index: 2;
+  animation: borderGlow 6s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.15) inset; }
+  50% { box-shadow: 0 0 50px rgba(255, 200, 200, 0.4) inset; }
+  100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.15) inset; }
+}
+.page {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  filter: blur(4px);
+  transition: all .6s ease;
+}
+
+.page.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+@keyframes explodeSpark {
+  0% { transform: scale(0); opacity: 1; }
+  80% { transform: scale(2.5); opacity: .6; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.explosion {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #fff, transparent);
+  border-radius: 50%;
+  animation: explodeSpark 1s forwards;
+  pointer-events: none;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* --- ANIMACIONES TIERNAS POR SECCIÓN --- */
+
+/* ❤️ 1. CORAZONES FLOTANDO */
+.heart-container { position:relative; height:120px; margin-top:10px; }
+.heart {
+  position:absolute;
+  width:25px;
+  height:25px;
+  background:url('https://pngimg.com/uploads/heart/heart_PNG51338.png');
+  background-size:contain;
+  animation: floatUp 4s infinite ease-in-out;
+  opacity:0.9;
+}
+@keyframes floatUp {
+  0% { transform:translateY(20px) scale(0.8); opacity:0; }
+  50% { opacity:1; }
+  100% { transform:translateY(-60px) scale(1); opacity:0; }
+}
+
+/* ✨ 2. ESTRELLAS GIRANDO */
+.stars-container { position:relative; height:130px; text-align:center; }
+.star {
+  width:60px;
+  animation: spinStar 4s linear infinite;
+}
+@keyframes spinStar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 🧸 3. OSITO ABRAZANDO */
+.osito-move {
+  width:140px;
+  animation: hug 2.5s infinite ease-in-out;
+}
+@keyframes hug {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* 🐱 4. GATITO SALTANDO */
+.cat-container { text-align:center; }
+.cat-jump {
+  width:150px;
+  animation: jump 2s infinite ease-in-out;
+}
+@keyframes jump {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+  100% { transform: translateY(0); }
+}
+
+/* 🦌 5. RENITO BAILANDO */
+.reindeer-container { text-align:center; }
+.reindeer-dance {
+  width:160px;
+  animation: dance 1.8s infinite ease-in-out;
+}
+@keyframes dance {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(4deg); }
+  50% { transform: rotate(-4deg); }
+  100% { transform: rotate(0deg); }
+}
 
 </style>
 </head>
 <body>
+
+  <div class="glow-orbs"></div>
+<div class="glow-orbs glow-orb2"></div>
+
 
 <!-- EFECTO DE NIEVE -->
 <canvas id="snowCanvas"></canvas>
@@ -278,6 +428,7 @@ body::before {
 <!-- SOBRE -->
 <div class="container" id="mainBox">
   <div class="box" onclick="openLetter()">
+    
     <div class="envelope" id="envelope">Abrir Carta ✨</div>
   </div>
 </div>
@@ -288,6 +439,7 @@ body::before {
     <div class="close-btn" onclick="closeLetter()">✖</div>
 
     <section class="page active" id="page1">
+      
      <h2 class="title">✨ Mi persona favorita ✨</h2>
 
       <p>
@@ -295,14 +447,14 @@ Desde que llegaste a mi vida, todo ha tenido sentido, incluso en los peores mome
     </section>
 
     <section class="page" id="page2">
-      <h2>❤️ Por que eres Mi persona fovorita... ❤️</h2>
+      <h2 class="title">❤️ Por que eres Mi persona fovorita... ❤️</h2>
       <p>Lo que admiro de ti
 Eres una persona increíble, y hay muchas cosas que admiro de ti: admiro tu forma de escuchar, admiro tu manera de ser, admiro cómo me cuidas sin decir nada. Admiro tantas cosas de ti que, si las dijera todas, no me alcanzarían las palabras. Y recuerda que siempre voy a estar para ti cuando me necesites, no importa lo que pase. Tienes un espacio en mi vida, pase lo que pase, y quiero que nuestra amistad dure para siempre, porque nunca podría olvidarte: tu forma de querer no se encuentra en cualquier lado. Tengo mucho más que decirte, pero lo dejo hasta aquí porque se me acaba la carta 😁. Gracias por existir en mi vida, y recuerda que te quiero mucho ❤.</p>
     </section>
 
   
 <section class="page" id="page3">
-  <h2>Mira este video</h2>
+  <h2 class="title">Mira este video</h2>
   <p>
    Quise dejarte este video porque me recuerda a muchos momenticos que hemos vivido.
 A veces no nos damos cuenta de cuánto significan ciertas cosas pero para mi esos recuerdos son las mejores cosas que puedo recordar siempre, y contigo tengo recuerdos que siempre se quedan en mi mente.
@@ -323,7 +475,7 @@ Ojalá cuando lo veas también te saque una sonrisa, así como tú me las sacas 
 
 
     <section class="page" id="page4">
-      <h2> En esta Navidad también quiero recordarte algo importante:</h2>
+      <h2 class="title"> En esta Navidad también quiero recordarte algo importante:</h2>
       <p>
 Eres capaz de todo lo que te propongas.
 Solo recuerda mantener siempre una mente positiva y nunca perder la fe en ti misma.
@@ -335,7 +487,7 @@ Ojalá esta Navidad la pases muy bien, logres tus metas y se cumplan tus sueños
     </section>
 
     <section class="page" id="page5">
-      <h2>💌 Final</h2>
+      <h2 >💌 Final</h2>
       <p>Siempre voy a estar para ti ❤️</p>
       <div class="osito-container">
   <img src="img/pngtree-a-teddy-bear-holding-heart-png-image_19604338.png" alt="Osito" class="osito">
@@ -360,6 +512,13 @@ function openGift(){
 }
 
 function openLetter(){
+document.getElementById('envelope').classList.add("open");
+
+const boom = document.createElement('div');
+boom.className = "explosion";
+document.body.appendChild(boom);
+setTimeout(()=> boom.remove(), 1000);
+
   document.getElementById('letterModal').style.display = 'flex';
   document.getElementById('envelope').style.transform = 'translateY(-260px) rotate(-10deg)';
 }
