@@ -488,36 +488,30 @@ body::after {
   vertical-align: middle;
   cursor: pointer;
 }
-.corazon-oculto {
-  position: absolute;
-  bottom: 30px;
-  right: 25px;
+.mensaje-oculto {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.6s ease;
+  text-align: center;
+  color: #d63b6a;
+  font-size: 20px;
+  padding: 0 20px;
+  font-weight: bold;
 }
 
-.corazon-oculto img {
-  width: 18px;
-  opacity: 0.12;  /* casi invisible */
-  cursor: pointer;
-  transition: opacity .4s, transform .3s;
+.mensaje-oculto.visible {
+  opacity: 1;
+  max-height: 300px;
+  margin-top: 15px;
 }
 
-.corazon-oculto img:active,
-.corazon-oculto img:hover {
-  opacity: 0.9;
-  transform: scale(1.2);
-}
 
 </style>
 </head>
 <body>
 
-  <div class="corazon-oculto">
-  <img src="img/corazon.png" id="corazon" alt="❤">
-</div>
-
-<p id="mensaje-secreto" class="oculto">
-  🌟 Pista: busca la palabra <b>“creer”</b>.
-</p>
+  
 
 <!-- PISTA FLOTANTE -->
 <div id="pistaFlotante" 
@@ -712,17 +706,28 @@ un poquito más en ti.</p>
 
     </section>
 
-    <section class="page" id="page5">
-      <h2 >💌 Final</h2>
-      <p>Siempre voy a estar para ti ❤️</p>
-      <div class="osito-container">
-  <img src="img/pngtree-a-teddy-bear-holding-heart-png-image_19604338.png" alt="Osito" class="osito">
+   <section class="page" id="page5">
+  <h2 >💌 Final</h2>
+  <p>Siempre voy a estar para ti ❤️</p>
 
-  
-  
-</div>
-<h1>Hana Keranai</h1>
-    </section>
+  <div class="osito-container">
+    <img src="img/pngtree-a-teddy-bear-holding-heart-png-image_19604338.png"
+         alt="Osito"
+         class="osito"
+         id="ositoSecreto">
+  </div>
+
+  <!-- ⭐ MENSAJE OCULTO AÑADIDO -->
+  <div id="mensajeSecretoOso" class="mensaje-oculto">
+     *ajsjajsjaj...*  
+      
+    <br><br>
+    <b>“Busca la palabra *creer* dentro de la carta…”</b>
+  </div>
+
+  <h1>Hana Keranai</h1>
+</section>
+
 
     <button class="btn-nav" onclick="prevPage()">Anterior</button>
     <button class="btn-nav" onclick="nextPage()">Siguiente</button>
@@ -931,12 +936,11 @@ function checkSecret(){
     error.style.display = "block";
   }
 }
-const corazon = document.getElementById("corazon");
-const mensaje = document.getElementById("mensaje-secreto");
+const osito = document.getElementById("ositoSecreto");
+const mensajeOso = document.getElementById("mensajeSecretoOso");
 
-corazon.addEventListener("click", () => {
-  mensaje.classList.toggle("visible");
-  mensaje.classList.toggle("oculto");
+osito.addEventListener("click", () => {
+  mensajeOso.classList.toggle("visible");
 });
 
 
